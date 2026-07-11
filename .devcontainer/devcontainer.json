@@ -3,6 +3,10 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
+  "features": {
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers-extra/features/tfswitch:1": {}
+  },
   "runArgs": [
     "--name",
     "${localWorkspaceFolderBasename}",

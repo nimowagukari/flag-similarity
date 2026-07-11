@@ -71,7 +71,21 @@ for domain in \
     "statsig.com" \
     "marketplace.visualstudio.com" \
     "vscode.blob.core.windows.net" \
-    "update.code.visualstudio.com"; do
+    "update.code.visualstudio.com" \
+    "sts.amazonaws.com" \
+    "sts.ap-northeast-1.amazonaws.com" \
+    "iam.amazonaws.com" \
+    "lambda.ap-northeast-1.amazonaws.com" \
+    "api.ecr.ap-northeast-1.amazonaws.com" \
+    "s3.amazonaws.com" \
+    "s3.ap-northeast-1.amazonaws.com" \
+    "dynamodb.ap-northeast-1.amazonaws.com" \
+    "logs.ap-northeast-1.amazonaws.com" \
+    "monitoring.ap-northeast-1.amazonaws.com" \
+    "budgets.amazonaws.com" \
+    "sns.ap-northeast-1.amazonaws.com" \
+    "oidc.ap-northeast-1.amazonaws.com" \
+    "portal.sso.ap-northeast-1.amazonaws.com"; do
     echo "Resolving $domain..."
     ips=$(dig +noall +answer A "$domain" | awk '$4 == "A" {print $5}')
     if [ -z "$ips" ]; then

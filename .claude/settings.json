@@ -14,5 +14,6 @@
       "Bash(sudo:*)",
       "Bash(chmod +x:*)"
     ]
-  }
+  },
+  "plansDirectory": ".claude/plans"
 }
