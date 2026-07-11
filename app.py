@@ -1,6 +1,9 @@
+import json
+import logging
 import os
+import time
 
-from flask import Flask, abort, render_template, request, session
+from flask import Flask, abort, g, render_template, request, session
 
 from flagquiz.flags import find_flag, get_flag, load_flags
 from flagquiz.question import DIFFICULTY_BANDS, generate_question
@@ -9,10 +12,34 @@ from flagquiz.similarity import compute_hashes
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key")
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 FLAGS = load_flags()
 HASHES = compute_hashes(FLAGS)
 
 DEFAULT_DIFFICULTY = "normal"
+
+
+@app.before_request
+def _start_timer():
+    g.start_time = time.perf_counter()
+
+
+@app.after_request
+def _log_request(response):
+    duration_ms = (time.perf_counter() - g.start_time) * 1000
+    logger.info(
+        json.dumps(
+            {
+                "path": request.path,
+                "method": request.method,
+                "status": response.status_code,
+                "duration_ms": round(duration_ms, 1),
+            }
+        )
+    )
+    return response
 
 
 def _resolve_difficulty(value: str | None) -> str:
