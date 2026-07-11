@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+  {% if is_correct %}
+    <h1 class="result-correct">正解！</h1>
+  {% else %}
+    <h1 class="result-incorrect">不正解...</h1>
+  {% endif %}
+
+  <img class="flag-image" src="{{ url_for('static', filename='flags/' + correct_flag.code + '.png') }}" alt="国旗">
+  <p>正解: {{ correct_flag.name_ja }}（{{ correct_flag.name_en }}）</p>
+
+  {% if not is_correct and selected_flag %}
+    <p>あなたの回答: {{ selected_flag.name_ja }}</p>
+  {% endif %}
+
+  <p><a href="{{ url_for('index', difficulty=difficulty) }}">次の問題へ</a></p>
+{% endblock %}

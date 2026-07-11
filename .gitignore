@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Terraform
+infra/.terraform/
+infra/*.tfstate
+infra/*.tfstate.*
+infra/.terraform.lock.hcl
+infra/*.tfvars
+
+# misc
+.env
+.DS_Store
+
+# Claude Code local settings (personal, not shared)
+.claude/settings.local.json

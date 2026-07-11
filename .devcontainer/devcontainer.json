@@ -1,0 +1,27 @@
+{
+  "name": "flag-similarity-dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": [
+    "--name",
+    "${localWorkspaceFolderBasename}",
+    "--cap-add=NET_ADMIN",
+    "--cap-add=NET_RAW"
+  ],
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspaces/flag-similarity",
+  "postCreateCommand": "sudo /usr/local/bin/init-firewall.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "anthropic.claude-code"
+      ],
+      "settings": {
+        "remote.autoForwardPorts": false
+      }
+    }
+  }
+}

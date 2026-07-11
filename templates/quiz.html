@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>国旗当てクイズ</h1>
+
+  <nav class="difficulty-nav">
+    難易度:
+    {% for d in difficulties %}
+      {% if d == difficulty %}
+        <a class="current">{{ d }}</a>
+      {% else %}
+        <a href="{{ url_for('index', difficulty=d) }}">{{ d }}</a>
+      {% endif %}
+    {% endfor %}
+  </nav>
+
+  <p>この国旗はどこの国？</p>
+  <img class="flag-image" src="{{ url_for('static', filename='flags/' + correct_flag.code + '.png') }}" alt="国旗">
+
+  <form class="choices" method="post" action="{{ url_for('answer') }}">
+    {% for flag in choice_flags %}
+      <button type="submit" name="choice" value="{{ flag.code }}">{{ flag.name_ja }}</button>
+    {% endfor %}
+  </form>
+{% endblock %}

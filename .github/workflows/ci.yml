@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+          pip install ruff pytest
+
+      - name: Lint (ruff)
+        run: |
+          if find . -name '*.py' -not -path './.git/*' | grep -q .; then
+            ruff check .
+          else
+            echo "no Python files yet, skipping lint"
+          fi
+
+      - name: Test (pytest)
+        run: |
+          if [ -d tests ]; then
+            pytest
+          else
+            echo "no tests directory yet, skipping tests"
+          fi
