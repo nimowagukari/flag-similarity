@@ -1,8 +1,8 @@
 FROM python:3.12-slim
 
-# bubblewrap, socat: Claude Codeのネイティブサンドボックス(bwrap+socatプロキシ)に必須
 # git, ca-certificates, curl: 依存取得・Claude Codeインストールに必要
 # gh: GitHub CLI（PR操作等）, tmux: 長時間ジョブ・複数ペイン作業用
+# jq: JSON整形・各種API応答のパース用
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
     git \
@@ -10,11 +10,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     gh \
     tmux \
-    iptables \
-    ipset \
-    iproute2 \
-    dnsutils \
-    aggregate \
     jq \
     && rm -rf /var/lib/apt/lists/*
 
@@ -23,13 +18,9 @@ RUN useradd --create-home --shell /bin/bash vscode
 
 RUN mkdir -p /workspaces/flag-similarity && chown vscode:vscode /workspaces/flag-similarity
 
-# Copy and set up firewall script
-COPY init-firewall.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/init-firewall.sh && \
-  echo "vscode ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/vscode-firewall && \
-  chmod 0440 /etc/sudoers.d/vscode-firewall
-
-
+# ~/.claude を名前付きボリュームで永続化するため、事前にvscode所有で作成しておく
+# (ボリューム初回マウント時、イメージ側の内容・所有権がそのままコピーされる)
+RUN mkdir -p /home/vscode/.claude && chown vscode:vscode /home/vscode/.claude
 
 USER vscode
 WORKDIR /workspaces/flag-similarity

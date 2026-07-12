@@ -12,7 +12,9 @@
     "ask": [
       "Bash(pip install:*)",
       "Bash(sudo:*)",
-      "Bash(chmod +x:*)"
+      "Bash(chmod :*)",
+      "Bash(curl :*)",
+      "Bash(wget :*)"
     ]
   },
   "plansDirectory": ".claude/plans"
