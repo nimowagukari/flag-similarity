@@ -10,8 +10,9 @@ venv/
 infra/.terraform/
 infra/*.tfstate
 infra/*.tfstate.*
-infra/.terraform.lock.hcl
 infra/*.tfvars
+infra/backend.hcl
+# .terraform.lock.hcl はプロバイダバージョン固定のため committed 対象（除外しない）
 
 # misc
 .env

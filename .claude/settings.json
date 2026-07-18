@@ -7,7 +7,10 @@
       "Bash(git push -f:*)",
       "Bash(git reset --hard:*)",
       "Bash(git clean -fd:*)",
-      "Bash(git branch -D:*)"
+      "Bash(git branch -D:*)",
+      "Read(.env)",
+      "Read(*.tfvars)",
+      "Read(*.tfstate)"
     ],
     "ask": [
       "Bash(pip install:*)",
