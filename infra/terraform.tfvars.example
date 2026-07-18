@@ -1,0 +1,9 @@
+# cp terraform.tfvars.example terraform.tfvars して値を編集してください。
+# terraform.tfvars は .gitignore 済み（フォークした場合は自分の値に置き換える）。
+# 各変数の説明は variables.tf を参照。
+
+aws_region   = "ap-northeast-1"
+project_name = "flag-similarity"
+
+github_repository        = "your-github-user/your-repo"
+github_oidc_provider_arn = "arn:aws:iam::123456789012:oidc-provider/token.actions.githubusercontent.com"

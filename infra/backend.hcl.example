@@ -1,0 +1,15 @@
+# terraform init -backend-config=backend.hcl 用のテンプレート。
+#
+#   cp backend.hcl.example backend.hcl
+#   (bucket / region を自分の環境に合わせて編集)
+#   terraform init -backend-config=backend.hcl
+#
+# backend.hcl は .gitignore 済み。state用バケットは作成済み・アクセス可能で
+# あることが前提（README.md の「前提条件」参照。Terraform 1.10+ の S3 ネイティブ
+# ロック機能を使うため、DynamoDBテーブルは不要）。
+
+bucket       = "REPLACE_ME-tfstate"
+key          = "flag-similarity/terraform.tfstate"
+region       = "ap-northeast-1"
+encrypt      = true
+use_lockfile = true
