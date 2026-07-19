@@ -1,0 +1,20 @@
+[project]
+name = "flag-similarity"
+version = "0.1.0"
+description = "国旗の国名当てクイズアプリ"
+requires-python = ">=3.12"
+dependencies = [
+    "flask",
+    "pillow",
+    "imagehash",
+    "gunicorn",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[tool.uv]
+package = false

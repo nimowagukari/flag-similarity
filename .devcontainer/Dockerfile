@@ -27,4 +27,9 @@ WORKDIR /workspaces/flag-similarity
 
 # Claude Code CLI (Node不要のネイティブバイナリ版インストーラ)
 RUN curl -fsSL https://claude.ai/install.sh | bash
+
+# uv (Pythonライブラリ管理。requirements.txtではなくpyproject.toml/uv.lockを使う)
+# バージョンはDockerfile/ci.ymlと合わせる
+RUN curl -fsSL https://astral.sh/uv/0.11.29/install.sh | sh
+
 ENV PATH="/home/vscode/.local/bin:${PATH}"
