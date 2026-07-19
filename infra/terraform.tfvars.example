@@ -7,3 +7,10 @@ project_name = "flag-similarity"
 
 github_repository        = "your-github-user/your-repo"
 github_oidc_provider_arn = "arn:aws:iam::123456789012:oidc-provider/token.actions.githubusercontent.com"
+
+# カスタムドメインを使わない場合は空文字のままでよい(API Gatewayのexecute-api
+# エンドポイントで公開される)。使う場合は両方セットで指定する
+# (acm_certificate_arnは事前にDNS検証まで完了した証明書のARN。証明書発行・DNS
+# レコード作成はこのTerraformの管理対象外)。
+domain_name         = ""
+acm_certificate_arn = ""
