@@ -3,14 +3,17 @@ import logging
 import os
 import time
 
+from cryptography.fernet import InvalidToken
 from flask import Flask, abort, g, render_template, request, session
 
+from flagquiz.crypto import build_fernet
 from flagquiz.flags import find_flag, get_flag, load_flags
 from flagquiz.question import DIFFICULTY_BANDS, generate_question
 from flagquiz.similarity import compute_hashes
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key")
+FERNET = build_fernet(app.secret_key)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -53,7 +56,7 @@ def index():
     difficulty = _resolve_difficulty(request.args.get("difficulty"))
     question = generate_question(FLAGS, HASHES, difficulty=difficulty)
 
-    session["correct_code"] = question.correct_code
+    session["correct_token"] = FERNET.encrypt(question.correct_code.encode()).decode()
     session["difficulty"] = question.difficulty
 
     correct_flag = get_flag(question.correct_code, FLAGS)
@@ -70,9 +73,14 @@ def index():
 
 @app.route("/answer", methods=["POST"])
 def answer():
-    correct_code = session.get("correct_code")
+    correct_token = session.get("correct_token")
     difficulty = session.get("difficulty", DEFAULT_DIFFICULTY)
-    if correct_code is None:
+    if correct_token is None:
+        abort(400)
+
+    try:
+        correct_code = FERNET.decrypt(correct_token.encode()).decode()
+    except InvalidToken:
         abort(400)
 
     selected_code = request.form.get("choice")

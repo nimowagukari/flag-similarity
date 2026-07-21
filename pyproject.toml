@@ -8,6 +8,7 @@ dependencies = [
     "pillow",
     "imagehash",
     "gunicorn",
+    "cryptography>=49.0.0",
 ]
 
 [dependency-groups]
